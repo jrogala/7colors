@@ -7,7 +7,7 @@
 #include <time.h> /* time */
 
 /* We want a 30x30 board game by default */
-#define BOARD_SIZE 30
+#define BOARD_SIZE 5
 #define NUMBER_OF_COLOR 7
 
 /* fonctions auxilliaires */
@@ -102,19 +102,28 @@ char ia_verybad(){ // Simple random choice (very stupid)
 char ia_average(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
 	char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 };
-    int i;
+    	char i;
 	void step_coup(int x, int y){
+		void check_color(char color,int x,int y){
+			if (x>= 0 && x <= BOARD_SIZE-1 && y>= 0 && y<= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE+x] == 0 && get_cell(x,y) == color){
+				board_temp[y*BOARD_SIZE +x] = 1;
+				colors_best[(int)(get_cell(x,y))] +=1;
+				check_color(color,x-1,y);
+				check_color(color,x,y-1);
+				check_color(color,x+1,y);
+				check_color(color,x,y+1);
+			}
+		}
 		if ( x >= 0 && x <= BOARD_SIZE -1 && y >= 0 && y <= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE + x] == 0){
-			board_temp[y*BOARD_SIZE +x] = 1;
 			if (get_cell(x,y) == player){
+				board_temp[y*BOARD_SIZE+x] = 1;
 				step_coup(x-1,y);
 				step_coup(x,y-1);
 				step_coup(x+1,y);
 				step_coup(x,y+1);
 			}
 			else {
-				colors_best[(int)(get_cell(x,y))] += 1; // change to += 1 to have a smart one, == 1 to have a bad one
-				// check_color(get_cell(i,j),x,y) // Uncomment to have a better one
+				check_color(get_cell(x,y),x,y); // Uncomment to have a better one
 			}
 		}
 	}
@@ -124,14 +133,14 @@ char ia_average(int player){
 	else {
 		step_coup(0,BOARD_SIZE -1);
 	}
-	int color;
-    int m = 0;
-    for (i=2;i<NUMBER_OF_COLOR +2;i++){
-        if (colors_best[i] > m){
-                color = i;
-                m = [i];
-        }
-    }
+	char color = 2;
+    	int m = 0;
+    	for (i=2;i<NUMBER_OF_COLOR +2;i++){
+        	if (colors_best[i] > m){
+                	color = i;
+                	m = colors_best[i];
+        	}
+    	}
     return color;
 }
 
@@ -174,7 +183,7 @@ int main()
     printf("Joueur 0 commence\n"); // hard coded player 0 start (don't blame me please)
     for(turn_player = 0;gamenotend(); turn_player = 1-turn_player){ // While game is not over
         if (turn_player == 0)
-            col = ia_average(0); // first player
+            col = player(); // first player
         else
             col = ia_verybad(); // other player
         coup(turn_player,col); // make the play

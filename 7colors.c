@@ -102,7 +102,7 @@ char ia_verybad(){ // Simple random choice (very stupid)
 char ia_average(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
 	char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 };
-    	char i;
+  unsigned i;
 	void step_coup(int x, int y){
 		void check_color(char color,int x,int y){
 			if (x>= 0 && x <= BOARD_SIZE-1 && y>= 0 && y<= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE+x] == 0 && get_cell(x,y) == color){
@@ -131,14 +131,14 @@ char ia_average(int player){
 		step_coup(0,BOARD_SIZE -1);
 	}
 	else {
-		step_coup(0,BOARD_SIZE -1);
+		step_coup(BOARD_SIZE -1,0);
 	}
 	char color = 2;
     	int m = 0;
     	for (i=2;i<NUMBER_OF_COLOR +2;i++){
         	if (colors_best[i] > m){
-                	color = i;
-                	m = colors_best[i];
+            color = i;
+            m = colors_best[i];
         	}
     	}
     return color;
@@ -185,7 +185,7 @@ int main()
         if (turn_player == 0)
             col = player(); // first player
         else
-            col = ia_verybad(); // other player
+            col = ia_average(1); // other player
         coup(turn_player,col); // make the play
         print_board();
     }

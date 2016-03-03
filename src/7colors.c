@@ -38,6 +38,7 @@ void set_cell(int x, int y, char color) // O(1)
    board[y*BOARD_SIZE + x] = color;
 }
 
+/** Prints the board in terminal*/
 void print_board() // O(BOARD_SIZE²)
 {
    int i, j;
@@ -53,6 +54,7 @@ int random_color(){ // Choose a random color != than 0 or 1
   return ((rand()%NUMBER_OF_COLOR)+2);
 }
 
+/** Creates the board and fills it with random colors*/
 void initgame(){// Create board, O(BOARD_SIZE²)
   int buff; // Random buffer
   int i,j;
@@ -66,6 +68,7 @@ void initgame(){// Create board, O(BOARD_SIZE²)
   set_cell(BOARD_SIZE-1,0,1);
 }
 
+/**allows a player to make a move*/
 void coup(int joueur, int color){// Make a shot, good complexity
     assert(joueur <= 1, __LINE__); // Never suppose to have this error
     assert(color >= 2 && (color <= NUMBER_OF_COLOR + 2), __LINE__); // this one too
@@ -86,6 +89,7 @@ void coup(int joueur, int color){// Make a shot, good complexity
         step_coup(BOARD_SIZE-1,0);
 }
 
+/** implements the strategy of a human player by taking their input*/
 char player(){ // Have to check that return is correct
     int color;
     do { // loop to get the color
@@ -95,10 +99,12 @@ char player(){ // Have to check that return is correct
     return color;
 }
 
+/** Implements a random strategy for the computer*/
 char ia_verybad(){ // Simple random choice (very stupid)
     return random_color();
 }
 
+/** Implements a greedy strategy for the computer*/
 char ia_average(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
 	char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 };
@@ -144,6 +150,7 @@ char ia_average(int player){
     return color;
 }
 
+/** checks if the situation meets the conditions to end the game*/
 char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
     int nombre_de_case = BOARD_SIZE * BOARD_SIZE;
     int case_joueur0 = 0;

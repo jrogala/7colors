@@ -100,16 +100,18 @@ char player(){ // Have to check that return is correct
 }
 
 /** Implements a random strategy for the computer*/
-char ia_verybad(){ // Simple random choice (very stupid)
+char ia_random(){ // Simple random choice (very stupid)
     return random_color();
 }
 
 /** Implements a greedy strategy for the computer*/
-char ia_average(int player){
+char ia_greedy(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
 	char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 };
   unsigned i;
+	/** determines the colors that will give the player the most new cases*/
 	void move_step(int x, int y){
+		/**checks the propagation of the color of a given case*/
 		void check_color(char color,int x,int y){
 			if (x>= 0 && x <= BOARD_SIZE-1 && y>= 0 && y<= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE+x] == 0 && get_cell(x,y) == color){
 				board_temp[y*BOARD_SIZE +x] = 1;
@@ -152,23 +154,23 @@ char ia_average(int player){
 
 /** checks if the situation meets the conditions to end the game*/
 char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
-    int nombre_de_case = BOARD_SIZE * BOARD_SIZE;
-    int case_joueur0 = 0;
-    int case_joueur1 = 0;
+    int case_total = BOARD_SIZE * BOARD_SIZE;
+    int player_score0 = 0;
+    int player_score1 = 0;
     int i,j;
     for (i=0;i<BOARD_SIZE;i++){
         for(j=0;j<BOARD_SIZE;j++){
             if (get_cell(i,j) == 0)
-                case_joueur0 += 1;
+                player_score0 += 1;
             if (get_cell(i,j) == 1)
-                case_joueur1 += 1;
+                player_score1 += 1;
         }
     }
-    if (case_joueur0>= (nombre_de_case+1)/2){
+    if (player_score0>= (case_total+1)/2){
         printf("joueur 0 a gagné\n");
         return 0;
     }
-    if (case_joueur1>= (nombre_de_case+1)/2){
+    if (player_score1>= (case_total+1)/2){
         printf("joueur 1 a gagné\n");
         return 0;
     }
@@ -192,7 +194,7 @@ int main()
         if (turn_player == 0)
             col = player(); // first player
         else
-            col = ia_average(1); // other player
+            col = ia_greedy(1); // other player
         make_move(turn_player,col); // make the play
         print_board();
     }

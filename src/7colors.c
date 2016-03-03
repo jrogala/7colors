@@ -69,24 +69,24 @@ void initgame(){// Create board, O(BOARD_SIZE²)
 }
 
 /**allows a player to make a move*/
-void coup(int joueur, int color){// Make a shot, good complexity
+void make_move(int joueur, int color){// Make a shot, good complexity
     assert(joueur <= 1, __LINE__); // Never suppose to have this error
     assert(color >= 2 && (color <= NUMBER_OF_COLOR + 2), __LINE__); // this one too
     char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 }; // this made a o(BOARD_SIZE²) spacial complexity
-    void step_coup(int x, int y){
+    void move_step(int x, int y){
         if (x >= 0 && x <= BOARD_SIZE-1 && y>=0 && y <= BOARD_SIZE-1 && (get_cell(x,y) == joueur || get_cell(x,y) == color) && board_temp[y*BOARD_SIZE + x] == 0){
             set_cell(x,y,joueur);
             board_temp[y*BOARD_SIZE + x] = 1; // Marker to avoid infinite loop
-            step_coup(x-1,y);
-            step_coup(x,y-1);
-            step_coup(x+1,y);
-            step_coup(x,y+1);
+            move_step(x-1,y);
+            move_step(x,y-1);
+            move_step(x+1,y);
+            move_step(x,y+1);
         }
     }
     if (joueur == 0)
-        step_coup(0,BOARD_SIZE-1);
+        move_step(0,BOARD_SIZE-1);
     else
-        step_coup(BOARD_SIZE-1,0);
+        move_step(BOARD_SIZE-1,0);
 }
 
 /** implements the strategy of a human player by taking their input*/
@@ -109,7 +109,7 @@ char ia_average(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
 	char board_temp[BOARD_SIZE * BOARD_SIZE] = { 0 };
   unsigned i;
-	void step_coup(int x, int y){
+	void move_step(int x, int y){
 		void check_color(char color,int x,int y){
 			if (x>= 0 && x <= BOARD_SIZE-1 && y>= 0 && y<= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE+x] == 0 && get_cell(x,y) == color){
 				board_temp[y*BOARD_SIZE +x] = 1;
@@ -123,21 +123,21 @@ char ia_average(int player){
 		if ( x >= 0 && x <= BOARD_SIZE -1 && y >= 0 && y <= BOARD_SIZE-1 && board_temp[y*BOARD_SIZE + x] == 0){
 			if (get_cell(x,y) == player){
 				board_temp[y*BOARD_SIZE+x] = 1;
-				step_coup(x-1,y);
-				step_coup(x,y-1);
-				step_coup(x+1,y);
-				step_coup(x,y+1);
+				move_step(x-1,y);
+				move_step(x,y-1);
+				move_step(x+1,y);
+				move_step(x,y+1);
 			}
 			else {
-				check_color(get_cell(x,y),x,y); // Uncomment to have a better one
+				check_color(get_cell(x,y),x,y);
 			}
 		}
 	}
 	if (player == 0){
-		step_coup(0,BOARD_SIZE -1);
+		move_step(0,BOARD_SIZE -1);
 	}
 	else {
-		step_coup(BOARD_SIZE -1,0);
+		move_step(BOARD_SIZE -1,0);
 	}
 	char color = 2;
     	int m = 0;
@@ -193,7 +193,7 @@ int main()
             col = player(); // first player
         else
             col = ia_average(1); // other player
-        coup(turn_player,col); // make the play
+        make_move(turn_player,col); // make the play
         print_board();
     }
     return 0; // Everything went well

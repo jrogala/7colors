@@ -3,9 +3,26 @@
 \usepackage{fullpage}
 \usepackage[francais]{babel}
 \usepackage{listings}\lstset{basicstyle=\sffamily,columns=fullflexible,language=C}
-\title{Title}
-\author{Jimmy Rogala}
-\date{Date 2016}
+\title{Jeu des sept couleurs: Implémentation}
+\author{Antonin Garret & Jimmy Rogala}
+\date{Fevrier-Mars 2016}
 \begin{document}
-  Hello world
+  \maketitle
+  \section*{Introduction}
+    Les règles du jeux des 7 couleurs sont:
+    \begin{itemize} %il faut rajouter des images
+      \item Un tableau d'une certaine taille est rempli de 7 couleurs aléatoirement
+      \item La case en bas à gauche (resp: en haut à droite) est de la couleur du joueur 0 (resp:1)
+      \item Chaque tour le joueur 0 (resp: 1 ) choisi une couleur parmi les 7 couleurs. Toute les cases de la couleur choisi qui sont juxtaposées à une case du joueur 0 (resp: 1) directement ou indirectement devient de la couleur du joueur 0 (resp: 1).
+      \item le jeu termine quand un joueur à rempli la majorité du tableau: il est le gagnant.
+    \end{itemize}
+    Nous allons vous parler de la réalisation du jeu en lui même (et des choix de l'implémentation) puis vous parler de la réalisation d'IA pour ce même jeu.
+  \section{Réalisation du jeu}
+    Le langage imposé fut le C. Il permet un controle rigoureux de la mémoire.
+    \subsection{Implémentation}
+      Le choix d'utiliser un tableau trivial. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de l'orientés objet.
+      Nous avons fait le choix aussi d'utiliser les chiffres de 2-9 pour representer les couleurs et les chiffres 0 et 1 pour representer le joueur 0 et le joueur 1. Notre programme est aussi compatible pour un nombre quelqu'onc de couleur
+      Les fonctions importante pour la réalisation d'un tour de jeu sont:
+      \subsubsection{initgame}
+        initgame() consiste à initialiser le plateau de jeu. On rempli le tableau de chiffres de 2-9 aléatoirement, puis la case en bas à gauche (resp: en haut à droite) de la couleur du joueur 0 (resp: joueur 1). La fonction est en $0(n)$ (n est (et sera) le nombre de case du tableau)
 \end{document}

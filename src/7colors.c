@@ -164,12 +164,12 @@ char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
                 case_joueur1 += 1;
         }
     }
-    if (case_joueur0>= nombre_de_case/2){
-        printf("joueur 0 a gagné");
+    if (case_joueur0>= (nombre_de_case+1)/2){
+        printf("joueur 0 a gagné\n");
         return 0;
     }
-    if (case_joueur1>= nombre_de_case/2){
-        printf("joueur 1 a gagné");
+    if (case_joueur1>= (nombre_de_case+1)/2){
+        printf("joueur 1 a gagné\n");
         return 0;
     }
     return 1;

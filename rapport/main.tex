@@ -3,7 +3,7 @@
 \usepackage{fullpage}
 \usepackage[francais]{babel}
 \usepackage{listings}\lstset{basicstyle=\sffamily,columns=fullflexible,language=C}
-\title{Jeu des sept couleurs: Implémentation}
+\title{Jeu des sept couleurs: Implémentation et réalisation d'une IA}
 \author{Antonin Garret & Jimmy Rogala}
 \date{Fevrier-Mars 2016}
 \begin{document}
@@ -20,8 +20,9 @@
   \section{Réalisation du jeu}
     Le langage imposé fut le C. Il permet un controle rigoureux de la mémoire.
     \subsection{Implémentation}
-      Le choix d'utiliser un tableau trivial. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de l'orientés objet.
-      Nous avons fait le choix aussi d'utiliser les chiffres de 2-9 pour representer les couleurs et les chiffres 0 et 1 pour representer le joueur 0 et le joueur 1. Notre programme est aussi compatible pour un nombre quelqu'onc de couleur
+      Le choix d'utiliser un tableau trivial. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de l'orienté objet.
+      Nous avons fait le choix aussi d'utiliser les chiffres de 2-9 pour representer les couleurs et les chiffres 0 et 1 pour representer le joueur 0 et le joueur 1. Notre programme est aussi compatible pour un nombre quelqu'onc de couleur.
+
       Les fonctions importante pour la réalisation d'un tour de jeu sont:
       \subsubsection{initgame}
         initgame() consiste à initialiser le plateau de jeu. On rempli le tableau de chiffres de 2-9 aléatoirement, puis la case en bas à gauche (resp: en haut à droite) de la couleur du joueur 0 (resp: joueur 1). La fonction est en $0(n)$ (n est (et sera) le nombre de case du tableau)

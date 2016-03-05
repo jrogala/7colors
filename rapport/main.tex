@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{fullpage}
+\usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
 \usepackage{listings}\lstset{basicstyle=\sffamily,columns=fullflexible,language=C}
 \title{Jeu des sept couleurs: Implémentation et réalisation d'une IA}
@@ -9,21 +10,21 @@
 \begin{document}
   \maketitle
   \section*{Introduction}
-    Les règles du jeux des 7 couleurs sont:
+    Les règles du jeu des 7 couleurs sont:
     \begin{itemize} %il faut rajouter des images
       \item Un tableau d'une certaine taille est rempli de 7 couleurs aléatoirement
-      \item La case en bas à gauche (resp: en haut à droite) est de la couleur du joueur 0 (resp:1)
-      \item Chaque tour le joueur 0 (resp: 1 ) choisi une couleur parmi les 7 couleurs. Toute les cases de la couleur choisi qui sont juxtaposées à une case du joueur 0 (resp: 1) directement ou indirectement devient de la couleur du joueur 0 (resp: 1).
-      \item le jeu termine quand un joueur à rempli la majorité du tableau: il est le gagnant.
+      \item La case en bas à gauche (resp: en haut à droite) est de la couleur 'v' (resp: '^') du joueur 0 (resp: 1)
+      \item Chaque tour le joueur 0 (resp: 1 ) choisi une couleur parmi les 7 couleurs. Toute les cases de la couleur choisie qui sont juxtaposées à une case du joueur 0 (resp: 1) directement ou indirectement prennent la couleur du joueur 0 (resp: 1).
+      \item Le jeu termine quand un joueur a rempli la majorité du tableau: il est le gagnant.
     \end{itemize}
-    Nous allons vous parler de la réalisation du jeu en lui même (et des choix de l'implémentation) puis vous parler de la réalisation d'IA pour ce même jeu.
+    Nous allons d'abord aborder la réalisation du jeu en lui-même (et des choix de l'implémentation) puis parler de la réalisation de plusieurs IA pour ce même jeu.
   \section{Réalisation du jeu}
-    Le langage imposé fut le C. Il permet un controle rigoureux de la mémoire.
+    Le langage imposé fut le C. Il permet un contrôle rigoureux de la mémoire.
     \subsection{Implémentation}
-      Le choix d'utiliser un tableau trivial. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de l'orienté objet.
-      Nous avons fait le choix aussi d'utiliser les chiffres de 2-9 pour representer les couleurs et les chiffres 0 et 1 pour representer le joueur 0 et le joueur 1. Notre programme est aussi compatible pour un nombre quelqu'onc de couleur.
+      Le choix le plus intuitif était d'utiliser un tableau pour représenter le plateu de jeu. C'est ce que nous avons fait. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de la programmation orientée objet.
+      Nous avons fait le choix de représenter en interne les couleurs par les nombre de 2 à 9, et les joueurs 0 et 1 par le nombres 0 et le nombre 1. Des fonctions de traduction permettent ensuite d'afficher les couleurs correspondantes pour l'utilisateur.
 
-      Les fonctions importante pour la réalisation d'un tour de jeu sont:
+      Les fonctions importantes pour la réalisation d'un tour de jeu sont:
       \subsubsection{initgame}
-        initgame() consiste à initialiser le plateau de jeu. On rempli le tableau de chiffres de 2-9 aléatoirement, puis la case en bas à gauche (resp: en haut à droite) de la couleur du joueur 0 (resp: joueur 1). La fonction est en $0(n)$ (n est (et sera) le nombre de case du tableau)
+        initgame() consiste à initialiser le plateau de jeu. On rempli le tableau de chiffres de 2 à 9 aléatoirement, puis la case en bas à gauche (resp: en haut à droite) de la couleur du joueur 0 (resp: joueur 1). La fonction est en $0(n)$ (on notera à partir de maintenant $n$ le nombre de case du tableau)
 \end{document}

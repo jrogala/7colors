@@ -5,6 +5,7 @@
 #include <stdio.h>  /* printf */
 #include <stdlib.h> /* random */
 #include <time.h> /* time */
+#include <search.h>
 
 /* We want a 30x30 board game by default */
 #define BOARD_SIZE 5
@@ -18,13 +19,22 @@ void assert(int check, int line){
     }
 }
 
-/** Represent the actual current board game
+int arg_search(char arr[], int size, char s){
+	int i;
+	for(i = 0; i < size; i++){
+		if(arr[i] == s) return i;
+	}
+	return -1;
+}	
+
+/** Represent the current board game
  *
  * NOTE: global variables are usually discouraged (plus encapsulation in
  *  an appropriate data structure would also be preferred), but don't worry.
  *  For this first assignment, no dinosaure will get you if you do that.
  */
 char board[BOARD_SIZE * BOARD_SIZE] = { 0 }; // Filled with zeros
+char c_translate[NUMBER_OF_COLOR+2] = {'^', 'v', 'A', 'B', 'C', 'D', 'F', 'G', 'H'};
 
 /** Retrieves the color of a given board cell */
 char get_cell(int x, int y) // O(1)
@@ -42,10 +52,9 @@ void set_cell(int x, int y, char color) // O(1)
 void print_board() // O(BOARD_SIZE²)
 {
    int i, j;
-   system("clear");
    for (i=0; i<BOARD_SIZE; i++) {
       for (j=0; j<BOARD_SIZE; j++)
-	    printf("%i ", get_cell(i, j)); // à modifier pour rendre compatible avec des chars
+	    printf("%c ", c_translate[(int)get_cell(i, j)]); // à modifier pour rendre compatible avec des chars
           printf("\n");
    }
 }
@@ -92,9 +101,11 @@ void make_move(int joueur, int color){// Make a shot, good complexity
 /** implements the strategy of a human player by taking their input*/
 char player(){ // Have to check that return is correct
     int color;
+    char c_color = 0;
+    printf("Choisis ta couleur\n");
     do { // loop to get the color
-    	printf("Choisi ta couleur entre 2 et 9\n"); // Hard Coded
-    	scanf("%d",&color);
+    	c_color = getchar();
+    	color = arg_search(c_translate, NUMBER_OF_COLOR+2, c_color);
     } while (color < 2 || color > NUMBER_OF_COLOR +2);
     return color;
 }
@@ -196,6 +207,7 @@ int main()
         else
             col = ia_greedy(1); // other player
         make_move(turn_player,col); // make the play
+        system("clear");
         print_board();
     }
     return 0; // Everything went well

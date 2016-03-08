@@ -12,7 +12,10 @@
 
 %\maketitle cause une erreur de compilation, je ne comprends pas pourquoi
 
-\section{Règles du jeu}
+\section{Le jeu}
+Nous allons implementer le jeu des 7 merveilles du monde en C.
+
+  \subsection{Les règles du jeux}
     Les règles du jeu des 7 couleurs sont:
     \begin{itemize} %il faut rajouter des images
       \item Un tableau d'une certaine taille est rempli de 7 couleurs aléatoirement.
@@ -20,7 +23,10 @@
       \item Chaque tour le joueur 0 (resp: 1 ) choisit une couleur parmi les 7 couleurs. Toute les cases de la couleur choisie qui sont juxtaposées à une case du joueur 0 (resp: 1) directement ou indirectement prennent la couleur du joueur 0 (resp: 1).
       \item Le jeu termine quand un joueur a rempli la majorité du tableau: il est le gagnant.
     \end{itemize}
+
     Nous allons d'abord aborder la réalisation du jeu en lui-même (et des choix de l'implémentation) puis parler de la réalisation de plusieurs IA pour ce même jeu.
+
+
 \section{Voir le monde en 7 couleurs}
     Le langage imposé fut le C. Il permet un contrôle rigoureux de la mémoire.
     \subsection{Question 2.1:Remplir le monde}
@@ -37,11 +43,11 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
     La plupart du temps on effetuera que quelques parcours (car il faut une grande zone de même couleur pour effectuer de nombreux parcours, ce qui est statistiquement peu probable), on a donc une complexité moyenne de $\mathcal{O}(n)$. Ce pendant, il est possible de faire mieux
 
     \subsection{Question 2.3: Jouer un coup : meilleure alternative}
-    La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{0}(Case_du_joueur_après_coup)$.
+    La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{O}(CaseDuJoueurApresCoup)$.
 
 
     \subsection{Question 2.3: Autre possibilité}
-    On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{0}(n)$
+    On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$
 
     \section{A la conquête du monde}
 
@@ -65,9 +71,21 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
 
     \subsection{Question 5.1: Enfin une bonne IA}
 
-    Le passage de l'IA aléatoire pas trop bête à cette fonction est simple: Au lieu de seulement mémoriser les couleurs, on mémorise le nombre de fois qu'on voit la couleur. Une attention est porté au fait que on doit vérifier que les voisins de chaque case coloré (comme pour jouer un coup). La compléxité est la même que pour jouer un coup.
+    Le passage de l'IA aléatoire pas trop bête à cette fonction est simple: Au lieu de seulement mémoriser les couleurs, on mémorise le nombre de fois qu'on voit la couleur. Une attention est porté au fait que on doit vérifier les voisins de chaque case coloré (comme pour jouer un coup). La compléxité est la même que pour jouer un coup.
 
-    
+    \subsection{Question 5.2: Un monde équitable?}
+
+    Quand on fait jouer l'aléatoire contre le glouton, le glouton l'emporte souvent. Quand on fait le glouton contre le glouton, le premier joueur l'emporte le plus souvent (avec une différence moindre par rapport à Aléa VS Glouton). Les idées pour rendre le jeu équilibré est de faire un monde symetrique (symetrie axialle par rapport à la diagonale séparant les 2 joueurs) et d'alterner le joueur 1 et le joueur 2. Ceci est réalisable sur plusieurs parties mais pour ne privilieger aucun joueur sur une seule partie, l'idée a été de forcer un nombre de case proche pour chaque couleur (qu'il y ait autant de rouge que de vert que de bleu etc). Ceci empecherait le fait qu'un joueur domine car il commence (mais ceci ne garantie rien, l'algorithme étant aléatoire).
+
+    \section{Les nombreuses huitièmes merveilles du monde}
+
+    Les questions suivantes n'ont pas été implémentées. Une expérience de pensée est fait dessus.
+
+    \subsection{Question 6.1 et 6.2: Un début de Min-Max}
+
+    La meilleur façon de faire les questions suivantes et de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmetre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La compléxité de l'algorithme pour une prévision sur les k prochains coup est en $\mathcal{O}(7^k)$ appel de la fonction coup.
+
+
 
 
 \end{document}

@@ -43,47 +43,47 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
     La plupart du temps on effetuera que quelques parcours (car il faut une grande zone de même couleur pour effectuer de nombreux parcours, ce qui est statistiquement peu probable), on a donc une complexité moyenne de $\mathcal{O}(n)$. Ce pendant, il est possible de faire mieux
 
     \subsection{Question 2.3: Jouer un coup : meilleure alternative}
-    La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{O}(CaseDuJoueurApresCoup)$.
+    La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On applique la fonction récursivement en commencant par la case du joueur. Si la case est de la couleur du joueur, on réapplique la fonction sur ses voisins. Si la case est de la couleur choisie par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer la fonction sur les voisins. Sinon, on ne fait rien. Nous avons utilisé un autre tableau pour retenir les cases déjà parcourues donc on a une complexité spatiale en $\mathcal{O}(n)$ permettant une complexité temporelle linéaire par rapport aux nombre de cases du joueur après le coup, soit en $\mathcal{O}(n)$ dans le pire des cas.
 
 
     \subsection{Question 2.3: Autre possibilité}
-    On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$
+    On aurait pu (dans l'idée du pot de peinture dans paint) peindre les cases du joueur en la couleur voulue, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$
 
     \section{A la conquête du monde}
 
-    Le jeu a été fait en sorte que le changement de l'algorithme (IA simple, IA compliqué ou joueur) soit simple. Il nous suffit donc de créer une fonction qui renvoit une couleur en prenant en argument le joueur qu'il est (0 ou 1)
+    Le jeu a été fait de sorte que changer l'algorithme qui choisit le coup joué par un joueur (IA simple, IA compliqué ou joueur humain) soit simple. Il nous suffit donc de créer une fonction qui renvoie une couleur en prenant en argument le joueur qui jouer un coup (0 ou 1), sauf si dans le cas de la stratégie aléatoire.
 
     \subsection{Question 3.1: Joueur vs Joueur}
 
-    Une simple boucle qui vérifie que le joueur a bien rentré un nombre permet à un joueur de jouer. On a pas vidé le buffer entre chaque coup donc un joueur peut jouer pour l'autre joueur.
+    Une simple boucle qui demande à l'utilisateur de choisir une couleur et qui vérifie qu'il a bien rentré une lettre valide permet à un joueur de jouer. On ne vide pas le buffer entre chaque coup et un joueur malveillant peut jouer pour l'autre joueur.
 
     \subsection{Question 3.2: Condition d'arrêt}
 
-    La condition d'arrêt est levé si un joueur possede plus de 50 \% du terrain.
+    Le jeu peut s'arrêter lorsqu'un des deux joueurs possèdent plus de 50\% de la surface de jeu. En effet, il peut alors être désigné gagnant car peu importe les coups joués par la suite, son adversaire ne pourra jamais avoir plus de cases que lui. Nous avons implémenté cette condition d'arrêt, mais on pourrait en réalité dans certains cas arrêter le jeu avant qu'elle soit remplie, par exemple lorsqu'un joueur arrive à couper l'accès à une portion du tableau de jeu à son adversaire, et qu'elle est suffisamment grosse pour garantir que quelque soient les coups joués par la suite, il possèdera finalement plus de 50\% du terrain.
 
     \section{La stratégie de l'aléa}
 
     \subsection{Question 4.1 et 4.2: Un début d'IA}
 
-    L'IA la plus simple reste l'aléatoire, la premiere fonction est simple à faire. La deuxieme est plus compliqué mais il suffit de garder en mémoire les couleurs quand on passe dessus.
+    L'IA la plus simple reste l'aléatoire, la premiere fonction est simple à faire. La deuxième est plus compliqué mais il suffit de garder en mémoire les couleurs quand on passe dessus.
 
     \section{La loi du plus fort}
 
     \subsection{Question 5.1: Enfin une bonne IA}
 
-    Le passage de l'IA aléatoire pas trop bête à cette fonction est simple: Au lieu de seulement mémoriser les couleurs, on mémorise le nombre de fois qu'on voit la couleur. Une attention est porté au fait que on doit vérifier les voisins de chaque case coloré (comme pour jouer un coup). La compléxité est la même que pour jouer un coup.
+    Le passage de l'IA aléatoire pas trop bête à cette fonction est simple: Au lieu de seulement mémoriser les couleurs, on mémorise le nombre de fois qu'on voit la couleur. Une attention particulère est portée au fait que l'on doit vérifier les voisins de chaque case colorée (comme pour jouer un coup). La compléxité est la même que pour jouer un coup.
 
     \subsection{Question 5.2: Un monde équitable?}
 
-    Quand on fait jouer l'aléatoire contre le glouton, le glouton l'emporte souvent. Quand on fait le glouton contre le glouton, le premier joueur l'emporte le plus souvent (avec une différence moindre par rapport à Aléa VS Glouton). Les idées pour rendre le jeu équilibré est de faire un monde symetrique (symetrie axialle par rapport à la diagonale séparant les 2 joueurs) et d'alterner le joueur 1 et le joueur 2. Ceci est réalisable sur plusieurs parties mais pour ne privilieger aucun joueur sur une seule partie, l'idée a été de forcer un nombre de case proche pour chaque couleur (qu'il y ait autant de rouge que de vert que de bleu etc). Ceci empecherait le fait qu'un joueur domine car il commence (mais ceci ne garantie rien, l'algorithme étant aléatoire).
+    Quand on fait jouer l'aléatoire contre le glouton, le glouton l'emporte souvent. Quand on fait le glouton contre le glouton, le premier joueur l'emporte le plus souvent (avec une différence moindre par rapport à Aléa VS Glouton). Pour rendre le jeu équilibré, on peut par exemple faire un monde symetrique (symetrie axialle par rapport à la diagonale séparant les 2 joueurs) et d'alterner le joueur 1 et le joueur 2. Ceci est réalisable sur plusieurs parties mais pour ne privilieger aucun joueur sur une seule partie, l'idée a été de forcer un nombre de case proches de chaque couleur pour chaque joeur (qu'il y ait autant de rouge que de vert que de bleu etc). Ceci empecherait le fait qu'un joueur domine parce qu'il commence (mais ceci ne garantie rien, l'algorithme étant aléatoire).
 
     \section{Les nombreuses huitièmes merveilles du monde}
 
-    Les questions suivantes n'ont pas été implémentées. Une expérience de pensée est fait dessus.
+    Les questions suivantes n'ont pas été implémentées. Une expérience de pensée est faite dessus.
 
     \subsection{Question 6.1 et 6.2: Un début de Min-Max}
 
-    La meilleur façon de faire les questions suivantes et de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmetre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La compléxité de l'algorithme pour une prévision sur les k prochains coup est en $\mathcal{O}(7^k)$ appel de la fonction coup.
+    La meilleure façon de faire les questions suivantes est de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmètre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La complexité de l'algorithme pour une prévision sur les k prochains coups est en $\mathcal{O}(7^k)$ appels de la fonction \textit{coup}. %soit $\mathcal{O}(7^k n}$.
 
 
 

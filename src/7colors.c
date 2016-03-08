@@ -115,9 +115,6 @@ char ia_random(){ // Simple random choice (very stupid)
     return random_color();
 }
 
-/** Implements a random strategy wichs however always plays a move that
- * will increase player territory*/
-
 /** Implements a greedy strategy for the computer*/
 char ia_greedy(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };

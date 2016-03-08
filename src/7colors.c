@@ -115,6 +115,9 @@ char ia_random(){ // Simple random choice (very stupid)
     return random_color();
 }
 
+/** Implements a random strategy wichs however always plays a move that
+ * will increase player territory*/
+
 /** Implements a greedy strategy for the computer*/
 char ia_greedy(int player){
 	int colors_best[NUMBER_OF_COLOR +2] = { 0 };
@@ -163,20 +166,23 @@ char ia_greedy(int player){
     return color;
 }
 
-/** checks if the situation meets the conditions to end the game*/
-char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
-    int case_total = BOARD_SIZE * BOARD_SIZE;
-    int player_score0 = 0;
-    int player_score1 = 0;
+int player_score(int player){
+    int player_score = 0;
     int i,j;
     for (i=0;i<BOARD_SIZE;i++){
         for(j=0;j<BOARD_SIZE;j++){
-            if (get_cell(i,j) == 0)
-                player_score0 += 1;
-            if (get_cell(i,j) == 1)
-                player_score1 += 1;
+            if (get_cell(i,j) == player)
+                player_score += 1;
         }
     }
+    return player_score;
+}
+
+/** checks if the situation meets the conditions to end the game*/
+char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
+    int case_total = BOARD_SIZE * BOARD_SIZE;
+    int player_score0 = player_score(0);
+    int player_score1 = player_score(1);
     if (player_score0>= (case_total+1)/2){
         printf("joueur 0 a gagné\n");
         return 0;
@@ -187,6 +193,13 @@ char gamenotend(){ // check if the game is over, O(BOARD_SIZE²)
     }
     return 1;
 
+}
+
+void print_score(){
+	int case_total = BOARD_SIZE * BOARD_SIZE;
+	int player_score0 = player_score(0)*100/case_total;
+    int player_score1 = player_score(1)*100/case_total;
+    printf("Score : joueur 0 : %i   joueur 1 : %i \n", player_score0, player_score1);
 }
 
 /** Program entry point */
@@ -206,9 +219,11 @@ int main()
             col = player(); // first player
         else
             col = ia_greedy(1); // other player
+        
         make_move(turn_player,col); // make the play
         system("clear");
         print_board();
+        print_score();
     }
     return 0; // Everything went well
 }

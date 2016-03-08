@@ -44,7 +44,7 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
     \subsection{Question 2.3: Jouer un coup : meilleure alternative}
     La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{O}(CaseDuJoueurApresCoup)$.
 
-    Un moyen de vérifier si la fonction est correcte est de print le board_temp (notre tableau permettant d'éviter les boucles infinis). Si celui ci est en adéquation avec l'état du jeu, alors la fonction est probablement correcte.
+    Un moyen de vérifier si la fonction est correcte est de print le boardTemp (notre tableau permettant d'éviter les boucles infinis). Si celui ci est en adéquation avec l'état du jeu, alors la fonction est probablement correcte.
 
     \subsection{Question 2.3: Autre possibilité}
     On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$

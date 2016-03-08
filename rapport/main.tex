@@ -23,18 +23,51 @@
     Nous allons d'abord aborder la réalisation du jeu en lui-même (et des choix de l'implémentation) puis parler de la réalisation de plusieurs IA pour ce même jeu.
 \section{Voir le monde en 7 couleurs}
     Le langage imposé fut le C. Il permet un contrôle rigoureux de la mémoire.
-    \subsection{Remplir le monde}
+    \subsection{Question 2.1:Remplir le monde}
       Le choix le plus intuitif était d'utiliser un tableau pour représenter le plateu de jeu. C'est ce que nous avons fait. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de la programmation orientée objet.
       Nous avons fait le choix de représenter en interne les couleurs par les nombre de 2 à 9, et les joueurs 0 et 1 par le nombres 0 et le nombre 1. Des fonctions de traduction permettent ensuite d'afficher les couleurs correspondantes pour l'utilisateur.
-      
+
 La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On remplit le tableau de chiffres de 2 à 9 aléatoirement, puis la case en bas à gauche (resp: en haut à droite) de la couleur du joueur 0 (resp: joueur 1). La fonction est en $\mathcal{O}(n)$ (on notera à partir de maintenant $n$ le nombre de case du tableau)
 
-    \subsection{Jouer un coup}
+    \subsection{Question 2.2: Jouer un coup}
     Nous avons réaliser la méthode proposée pour jouer un coup. Elle consiste à parcourir le tableau de jeu et à trouver toute les cases de la couleur choisie par le joueur actuel qui sont adjacentes à l'une de ses cases. Si on a mis à jour au moins une case au cours de ce parcours, on effectue un nouveau parcours. On s'arrête lorqu'on à effectué un parcours complet sans changement. Le moyen le plus simple pour tester la correction de cette méthode est de l'appliquer quelques fois sur le tableau de jeu en affichant celui-ci et de vérifier que tout se passe comme prévu.
-    
+
     Dans le pire des cas, on effectuera $n-2$ parcours (si l'on modifie exactement une case à chaque parcours). Comme chaque parcours vérife les $n$ cases du tableau, on a une complexité dans le pire des cas de $\mathcal{O}(n^2)$.
-    
+
     La plupart du temps on effetuera que quelques parcours (car il faut une grande zone de même couleur pour effectuer de nombreux parcours, ce qui est statistiquement peu probable), on a donc une complexité moyenne de $\mathcal{O}(n)$. Ce pendant, il est possible de faire mieux
+
+    \subsection{Question 2.3: Jouer un coup : meilleure alternative}
+    La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{0}(Case_du_joueur_après_coup)$.
+
+
+    \subsection{Question 2.3: Autre possibilité}
+    On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{0}(n)$
+
+    \section{A la conquête du monde}
+
+    Le jeu a été fait en sorte que le changement de l'algorithme (IA simple, IA compliqué ou joueur) soit simple. Il nous suffit donc de créer une fonction qui renvoit une couleur en prenant en argument le joueur qu'il est (0 ou 1)
+
+    \subsection{Question 3.1: Joueur vs Joueur}
+
+    Une simple boucle qui vérifie que le joueur a bien rentré un nombre permet à un joueur de jouer. On a pas vidé le buffer entre chaque coup donc un joueur peut jouer pour l'autre joueur.
+
+    \subsection{Question 3.2: Condition d'arrêt}
+
+    La condition d'arrêt est levé si un joueur possede plus de 50 \% du terrain.
+
+    \section{La stratégie de l'aléa}
+
+    \subsection{Question 4.1 et 4.2: Un début d'IA}
+
+    L'IA la plus simple reste l'aléatoire, la premiere fonction est simple à faire. La deuxieme est plus compliqué mais il suffit de garder en mémoire les couleurs quand on passe dessus.
+
+    \section{La loi du plus fort}
+
+    \subsection{Question 5.1: Enfin une bonne IA}
+
+    Le passage de l'IA aléatoire pas trop bête à cette fonction est simple: Au lieu de seulement mémoriser les couleurs, on mémorise le nombre de fois qu'on voit la couleur. Une attention est porté au fait que on doit vérifier que les voisins de chaque case coloré (comme pour jouer un coup). La compléxité est la même que pour jouer un coup.
+
     
-    \subsection{Jouer un coup : meilleure alternative}
+
+
 \end{document}

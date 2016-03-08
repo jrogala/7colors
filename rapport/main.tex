@@ -1,17 +1,16 @@
-\documentclass[11pt]{article}
+\documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{fullpage}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage{listings}\lstset{basicstyle=\sffamily,columns=fullflexible,language=C}
+%\usepackage{hyperref}
 
 \title{Jeu des sept couleurs: Implémentation et réalisation d'une IA}
 \author{Antonin Garret & Jimmy Rogala}
-
+\date{Mars 2016}
 \begin{document}
-
-%\maketitle cause une erreur de compilation, je ne comprends pas pourquoi
-
+\maketitle
+\tableofcontents
+\clearpage
 \section{Le jeu}
 Nous allons implementer le jeu des 7 merveilles du monde en C.
 
@@ -29,7 +28,7 @@ Nous allons implementer le jeu des 7 merveilles du monde en C.
 
 \section{Voir le monde en 7 couleurs}
     Le langage imposé fut le C. Il permet un contrôle rigoureux de la mémoire.
-    \subsection{Question 2.1:Remplir le monde}
+    \subsection{Question 2.1: Remplir le monde}
       Le choix le plus intuitif était d'utiliser un tableau pour représenter le plateu de jeu. C'est ce que nous avons fait. L'autre choix cohérent et possible consistait à définir les cases en tant qu'objet et les voisins des cases mais le C n'est pas pratique pour faire de la programmation orientée objet.
       Nous avons fait le choix de représenter en interne les couleurs par les nombre de 2 à 9, et les joueurs 0 et 1 par le nombres 0 et le nombre 1. Des fonctions de traduction permettent ensuite d'afficher les couleurs correspondantes pour l'utilisateur.
 
@@ -45,6 +44,7 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
     \subsection{Question 2.3: Jouer un coup : meilleure alternative}
     La methode précedente est peu efficace. La methode choisi consiste à faire comme un front d'onde: On part de la case du joueur puis on regarde ses voisins. Si les voisins sont de la couleur du joueur, on réapplique la fonction sur les voisins. Si les voisins sont de la couleur choisi par le joueur, on change la couleur de la case et on vérifie si la case a des voisins de la même couleur pour réappliquer l'algorithme sur les voisins. Nous avons utiliser un autre tableau pour retenir les cases déjà parcouru donc on a une compléxité spatialle en $\mathcal{O}(n)$ permettant une compléxité temporelle en $\mathcal{O}(CaseDuJoueurApresCoup)$.
 
+    Un moyen de vérifier si la fonction est correcte est de print le board_temp (notre tableau permettant d'éviter les boucles infinis). Si celui ci est en adéquation avec l'état du jeu, alors la fonction est probablement correcte.
 
     \subsection{Question 2.3: Autre possibilité}
     On aurait pu (dans l'idée du pot de peinture dans paint) pendre les cases du joueur en la couleur voulu, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$
@@ -85,7 +85,26 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
 
     La meilleur façon de faire les questions suivantes et de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmetre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La compléxité de l'algorithme pour une prévision sur les k prochains coup est en $\mathcal{O}(7^k)$ appel de la fonction coup.
 
+    \section*{Synthèse du projet}
+
+    \subsection*{Observation diverse}
+
+    Les résultats sont bien en adéquation avec l'intuition (contrairement à certains autres jeux).
+
+    \subsection*{Ce qui a marché!}
+
+    Le début de code permet de commencer directement la partie interessante. Le jeu en lui même est suffisament simple pour pouvoir finir l'implémentation en 1-2h (pas comme le jeu de dames ou d'echec) et suffisament compliqué pour pouvoir dire des choses dessus (Le morpion est trop simple).
+
+    \subsection*{Les couacs}
+
+    NULL
+
+    \subsection*{Ce qu'on peut ajouter}
+    \begin{itemize}
+    \item Pour donner envie de s'attaquer aux problèmes 7.x pourquoi ne pas mettre en place un concours en ligne d'ia sous la forme d'un tournoi mis à jour chaque 5 minutes entre tous nos algos? (La méthode a été utilisé en sup dans ma prépa et avait eu un franc succés)
+
+    \item Le projet pourrait être tout simplement posé sous la forme de question: Mettre au point une démarche pour avoir un algorithme efficace dans le jeu des 7 couleurs (Nous expliquer seulement les règles du jeu). Ceci pourrait nous forcer à recréer le jeu pour tester nos algorithmes.
 
 
-
+    \end{itemize}
 \end{document}

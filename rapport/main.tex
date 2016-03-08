@@ -8,13 +8,12 @@
 \author{Antonin Garret & Jimmy Rogala}
 \date{Mars 2016}
 \begin{document}
-\maketitle
+ %\maketitle
 \tableofcontents
 \clearpage
-\section{Le jeu}
+\section{Règles du jeu}
 Nous allons implementer le jeu des 7 merveilles du monde en C.
 
-  \subsection{Les règles du jeux}
     Les règles du jeu des 7 couleurs sont:
     \begin{itemize} %il faut rajouter des images
       \item Un tableau d'une certaine taille est rempli de 7 couleurs aléatoirement.
@@ -49,7 +48,7 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
     Un moyen de vérifier si la fonction est correcte est de print le boardTemp (notre tableau permettant d'éviter les boucles infinis). Si celui ci est en adéquation avec l'état du jeu, alors la fonction est probablement correcte.
 
     \subsection*{Question 2.3: Autre possibilité}
-    On aurait pu (dans l'idée du pot de peinture dans paint) peindre les cases du joueur en la couleur voulue, puis repeindre toutes les cases de la couleur du joueur. Ceci evite la compléxité spatialle en $\mathcal{O}(n)$
+    On aurait pu (dans l'idée des fonctions de remplissage dans les logiciels de dessins comme paint) peindre les cases du joueur en la couleur voulue, puis appliquer sur la case en bas à gauche (resp. en haut à droite) pour le joueur 0 (resp. 1) une fonction, elle aussi récursive, qui appliquée à une case, si elle est de la couleur choisie, la repeint de la couleur du joueur puis est réappliquée à ses voisins, et ne fait rien sinon. On repeint ainsi les cases voulues de la couleur du joueur, et ceci evite la complexité spatialle en $\mathcal{O}(n)$
 
     \section{A la conquête du monde}
 
@@ -85,27 +84,24 @@ La fonction \textit{initgame()} permet d'initialiser le plateau de jeu. On rempl
 
     \subsection*{Question 6.1 et 6.2: Un début de Min-Max}
 
-    La meilleure façon de faire les questions suivantes est de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmètre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La complexité de l'algorithme pour une prévision sur les k prochains coups est en $\mathcal{O}(7^k)$ appels de la fonction \textit{coup}. %soit $\mathcal{O}(7^k n}$.
+    La meilleure façon de faire les questions suivantes est de penser en termes d'heuristique et d'arbre: L'hégémonique est comme le glouton, sauf que l'heuristique n'est pas la même. Il suffit de créer une fonction qui calcule le périmètre et de l'utiliser dans un min max de hauteur 1 pour avoir la réponse à la 6.1 (il suffit d'utiliser une hauteur de 2 pour avoir la réponse à la 6.2). La complexité de l'algorithme pour une prévision sur les k prochains coups est en $\mathcal{O}(7^k)$ appels de la fonction \textit{coup}, soit $\mathcal{O}(7^k n)$.
 
     \section*{Synthèse du projet}
 
-    \subsection*{Observation diverse}
+    \subsection*{Observations diverses}
 
     Les résultats sont bien en adéquation avec l'intuition (contrairement à certains autres jeux).
 
-    \subsection*{Ce qui a marché!}
+    \subsection*{Ce qui a marché}
 
-    Le début de code permet de commencer directement la partie interessante. Le jeu en lui même est suffisament simple pour pouvoir finir l'implémentation en 1-2h (pas comme le jeu de dames ou d'echec) et suffisament compliqué pour pouvoir dire des choses dessus (Le morpion est trop simple).
+    Le canevas de code permet de se focaliser directement sur les questions qui nous intéressent. Le jeu en lui-même est suffisament simple pour pouvoir finir l'implémentation en quelques heures (pas comme le jeu de dames ou d'echec) et suffisament compliqué pour pouvoir poser des problème intéressants, comme la recherche d'une meilleure heuristique (le morpion par exemple est trop simple).
 
-    \subsection*{Les couacs}
-
-    NULL
 
     \subsection*{Ce qu'on peut ajouter}
     \begin{itemize}
-    \item Pour donner envie de s'attaquer aux problèmes 7.x pourquoi ne pas mettre en place un concours en ligne d'ia sous la forme d'un tournoi mis à jour chaque 5 minutes entre tous nos algos? (La méthode a été utilisé en sup dans ma prépa et avait eu un franc succés)
+    \item Pour donner envie de s'attaquer aux problèmes 7.x pourquoi ne pas mettre en place un concours en ligne d'ia sous la forme d'un tournoi mis à jour chaque 5 minutes entre tous nos algorithmes ? (La méthode a été utilisé en sup dans ma prépa et avait eu un franc succés).
 
-    \item Le projet pourrait être tout simplement posé sous la forme de question: Mettre au point une démarche pour avoir un algorithme efficace dans le jeu des 7 couleurs (Nous expliquer seulement les règles du jeu). Ceci pourrait nous forcer à recréer le jeu pour tester nos algorithmes.
+    \item Le projet pourrait être tout simplement posé sous la forme d'un défi: Mettre au point une démarche pour avoir un algorithme efficace dans le jeu des 7 couleurs (Nous expliquer seulement les règles du jeu). Ceci pourrait nous forcer à recréer le jeu pour tester nos algorithmes.
 
 
     \end{itemize}
